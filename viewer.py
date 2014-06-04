@@ -10,7 +10,7 @@ class Viewer( object ):
 		
 		# resgister the owner-change signal for the primary clipboard
 		self.primaryClipboard.connect( "owner-change", self._onClipboardChange )
-		self.win= None
+		self.win = window.PopupWin()
 	
 	def _onClipboardChange( self , clipboard, event ):
 		
@@ -21,10 +21,9 @@ class Viewer( object ):
 				# get the pointer position
 				x, y = self._get_pointer_position()
 
-				if self.win is not None and self.win.get_window():
-					self.win.destroy()	
-				
-				self.win = window.PopupWin( text, X = x, Y = y )
+				self.win.set_keep_above( True )
+				self.win.show_all()	
+				self.win.move( x+10, y+10 )
 
 
 		except Exception as e:

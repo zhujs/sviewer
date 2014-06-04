@@ -5,13 +5,13 @@ from textFrame import textFrame
 
 class PopupWin( Gtk.Window ):
 	"""Implement the popup window shown in specific position"""
-	def __init__(self, selectedText, windowType=Gtk.WindowType.TOPLEVEL,
-			X=None, Y=None, **kwds):
+	def __init__( self, selectedText='', windowType=Gtk.WindowType.TOPLEVEL, **kwds ):
 		super( PopupWin, self).__init__(windowType, **kwds)
 		self.selectedText = selectedText 
 
-		self.connect( 'destroy', self._on_destroy, None )
+		self.connect( 'delete-event', self._on_delete_event ,None)
 		self.set_default_size( 300, 300 )
+		self.set_skip_taskbar_hint( True )
 		self.set_title( selectedText )
 
 		# create a scrolled window and pack it in the main window
@@ -28,11 +28,9 @@ class PopupWin( Gtk.Window ):
 		self._createMessageGrid( '百度百科','Test' )
 		scrolledWin.add( self.grid )
 		self.add( scrolledWin )
-		self.show_all()
-		# self.get_window().is_destroyed() 
-
-		if X is not None and Y is not None:
-			self.move( X + 10, Y + 10 )
+		#self.show_all()
+		#self.get_window().is_destroyed() 
+		#self.move( X + 10, Y + 10 )
 
 	def _createMessageGrid( self, label, text ):
 		"""function to create a textFrame which will be added into the grid
@@ -58,10 +56,11 @@ class PopupWin( Gtk.Window ):
 		
 		self.grid.add( grid )
 
-	def _on_destroy( self, widget, data ):
-		widget.destroy()		
+	def _on_delete_event( self, widget,event, data ):
+		return widget.hide_on_delete()
 
 if __name__ == "__main__":
-	win = PopupWin( 'power', X=200, Y=200)
+	win = PopupWin('power')
+	win.show_all()
 	Gtk.main()
 
