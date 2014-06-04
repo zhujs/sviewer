@@ -6,8 +6,7 @@ from ui import window
 class Viewer( object ):
 	def __init__( self ):
 		self.display = Gdk.Display.get_default()
-		self.primaryClipboard = Gtk.Clipboard.get_for_display( self.display , 
-				Gdk.SELECTION_PRIMARY )
+		self.primaryClipboard = Gtk.Clipboard.get_for_display( self.display, Gdk.SELECTION_PRIMARY )
 		
 		# resgister the owner-change signal for the primary clipboard
 		self.primaryClipboard.connect( "owner-change", self._onClipboardChange )
@@ -17,15 +16,17 @@ class Viewer( object ):
 		
 		try:
 			text = clipboard.wait_for_text( )
-			text = text.strip()
-			if text is not None and text != "":
+			
+			if text is not None and text.strip() != "":
 				# get the pointer position
 				x, y = self._get_pointer_position()
 
-				if self.win is not None:
+				if self.win is not None and self.win.get_window():
 					self.win.destroy()	
+				
+				self.win = window.PopupWin( text, X = x, Y = y )
 
-				self.win = window.PopupWin( text, X = x, Y = y )	
+
 		except Exception as e:
 			print e	
 
