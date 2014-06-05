@@ -11,7 +11,7 @@ class PopupWin( Gtk.Window ):
 
 		self.connect( 'delete-event', self._on_delete_event ,None)
 		self.set_default_size( 300, 300 )
-		self.set_skip_taskbar_hint( True )
+		#self.set_skip_taskbar_hint( True )
 		self.set_title( selectedText )
 
 		# create a scrolled window and pack it in the main window

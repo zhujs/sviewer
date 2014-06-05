@@ -18,11 +18,12 @@ class Viewer( object ):
 			text = clipboard.wait_for_text( )
 			
 			if text is not None and text.strip() != "":
+				self.win.hide()
 				# get the pointer position
 				x, y = self._get_pointer_position()
 
-				self.win.set_keep_above( True )
 				self.win.show_all()	
+				self.win.set_keep_above( True )
 				self.win.move( x+10, y+10 )
 
 
